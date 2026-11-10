@@ -107,3 +107,20 @@ def category_report():
         return [dict(r) for r in rows]
     finally:
         conn.close()
+
+def get_expenses_filtered(category=None, month=None):
+    query = "SELECT * FROM expenses WHERE 1=1"
+    params = []
+    if category:
+        query += " AND category = ?"
+        params.append(category)
+    if month:
+        query += " AND substr(date, 1, 7) = ?"
+        params.append(month)
+    query += " ORDER BY date DESC, id DESC"
+    conn = get_connection()
+    try:
+        rows = conn.execute(query, params).fetchall()
+        return [dict(r) for r in rows]
+    finally:
+        conn.close()

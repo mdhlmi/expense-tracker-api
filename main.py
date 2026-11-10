@@ -26,8 +26,8 @@ def create_expense(expense: ExpenseIn):
 
 
 @app.get("/expenses")
-def list_expenses():
-    return db.get_expenses()
+def list_expenses(category: Optional[str] = None, month: Optional[str] = None):
+    return db.get_expenses_filtered(category, month)
 
 
 @app.get("/expenses/{expense_id}")
